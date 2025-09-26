@@ -1,0 +1,36 @@
+---
+- hosts: webservers
+  user: ansible
+  become: true
+  connection: ssh
+  tasks:
+
+    - name: Install Java on Host Machines
+      action: yum pkg=java-11-openjdk state=present
+
+    - name: Install Python 3 on Host Machines
+      action: yum pkg=python3 state=present
+
+    - name: Install httpd on Host Machines
+      action: yum pkg=httpd state=present
+
+    - name: Enable and start httpd on Host Machines
+      action: service name=httpd state=started enabled=yes
+
+    - name: Enable and start httpd on Host Machines
+      action: service name=httpd state=stopped enabled=yes
+
+    - name: Enable and start httpd on Host Machines
+      action: service name=httpd state=restarted enabled=yes
+
+    - name: Add MariaDB on Host Machines
+      yum_repository:
+        name: MariaDB
+        description: MariaDB 10.5 YUM repo
+        baseurl: http://yum.mariadb.org/10.5/centos7-amd64
+        gpgkey: https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+        gpgcheck: yes
+
+    - name: Install MariaDB on Host Machines
+      action: yum pkg=MariaDB-server state=present
+
