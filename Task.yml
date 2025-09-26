@@ -41,7 +41,14 @@
         gpgcheck: yes
       ignore_errors: yes
 
+    - name: Clean YUM cache
+      action: command yum clean all
+      ignore_errors: yes
+
+    - name: Refresh YUM cache
+      action: command yum makecache
+      ignore_errors: yes
+
     - name: Install MariaDB on Host Machines
       action: yum pkg=MariaDB-server state=present
       ignore_errors: yes
-
