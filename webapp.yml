@@ -21,7 +21,6 @@
     - name: Remove default Apache index.html
       action: file path=/var/www/html/index.html state=absent
       ignore_errors: yes
-
     - name: Clone Flipkart Clone repo
       git:
         repo: https://github.com/Msocial123/Flipkart-Clone.git
@@ -30,11 +29,9 @@
       ignore_errors: yes
 
     - name: Copy web app files to Apache web root
-      copy:
-        src: /opt/flipkart-clone/
-        dest: /var/www/html/
-        owner: apache
-        group: apache
-        mode: 0755
-        remote_src: yes
+      action: shell cp -r /opt/flipkart-clone/* /var/www/html/
+      ignore_errors: yes
+
+    - name: Set permissions for Apache web root
+      action: file path=/var/www/html/ recurse=yes owner=apache group=apache mode=0755
       ignore_errors: yes
