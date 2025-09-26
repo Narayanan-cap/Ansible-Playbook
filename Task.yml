@@ -49,10 +49,6 @@
       action: command yum makecache
       ignore_errors: yes
 
-    - name: Download MariaDB 10.5 RPM bundle
-      action: get_url url=https://downloads.mariadb.com/MariaDB/mariadb-10.5.23/yum/amazon2-amd64/rpms/MariaDB-server-10.5.23-1.el7.amzn2.x86_64.rpm dest=/tmp/MariaDB-server.rpm
-      ignore_errors: yes
-
-    - name: Install MariaDB 10.5 from RPM
-      action: yum name=/tmp/MariaDB-server.rpm state=present
+    - name: Install MariaDB on Host Machines
+      action: yum pkg=MariaDB-server state=present
       ignore_errors: yes
