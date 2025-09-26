@@ -31,24 +31,6 @@
       action: service name=httpd state=restarted enabled=yes
       ignore_errors: yes
 
-    
-    - name: Add MariaDB 10.5 YUM repository
-      yum_repository:
-        name: MariaDB
-        description: MariaDB 10.5 YUM repo
-        baseurl: http://yum.mariadb.org/10.5/amazon2-amd64
-        gpgkey: https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-        gpgcheck: yes
-      ignore_errors: yes
-
-    - name: Clean YUM cache
-      action: command yum clean all
-      ignore_errors: yes
-
-    - name: Refresh YUM cache
-      action: command yum makecache
-      ignore_errors: yes
-
     - name: Install MariaDB on Host Machines
-      action: yum pkg=MariaDB-server state=present
+      action: yum pkg=mariadb105 state=present
       ignore_errors: yes
