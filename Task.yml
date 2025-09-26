@@ -5,8 +5,10 @@
   connection: ssh
   tasks:
 
-    - name: Install Java on Host Machines
-      action: yum pkg=java-11-openjdk state=present
+    - name: Install Java (Amazon Corretto 11)
+      yum:
+        name: java-11-amazon-corretto
+        state: present
       ignore_errors: yes
 
     - name: Install Python 3 on Host Machines
@@ -29,11 +31,12 @@
       action: service name=httpd state=restarted enabled=yes
       ignore_errors: yes
 
-    - name: Add MariaDB on Host Machines
+    
+    - name: Add MariaDB 10.5 YUM repository
       yum_repository:
         name: MariaDB
         description: MariaDB 10.5 YUM repo
-        baseurl: http://yum.mariadb.org/10.5/centos7-amd64
+        baseurl: http://yum.mariadb.org/10.5/amazon2-amd64
         gpgkey: https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
         gpgcheck: yes
       ignore_errors: yes
