@@ -7,21 +7,27 @@
 
     - name: Install Java on Host Machines
       action: yum pkg=java-11-openjdk state=present
+      ignore_errors: yes
 
     - name: Install Python 3 on Host Machines
       action: yum pkg=python3 state=present
+      ignore_errors: yes
 
     - name: Install httpd on Host Machines
       action: yum pkg=httpd state=present
+      ignore_errors: yes
 
     - name: Enable and start httpd on Host Machines
       action: service name=httpd state=started enabled=yes
+      ignore_errors: yes
 
     - name: Enable and start httpd on Host Machines
       action: service name=httpd state=stopped enabled=yes
+      ignore_errors: yes
 
     - name: Enable and start httpd on Host Machines
       action: service name=httpd state=restarted enabled=yes
+      ignore_errors: yes
 
     - name: Add MariaDB on Host Machines
       yum_repository:
@@ -30,7 +36,9 @@
         baseurl: http://yum.mariadb.org/10.5/centos7-amd64
         gpgkey: https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
         gpgcheck: yes
+      ignore_errors: yes
 
     - name: Install MariaDB on Host Machines
       action: yum pkg=MariaDB-server state=present
+      ignore_errors: yes
 
