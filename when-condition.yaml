@@ -15,6 +15,11 @@
         name: git
         state: present
       when: not git_stat.stat.exists
+  
+    - name: Git already installed
+      debug:
+        msg: "Git is already installed. Skipping installation."
+      when: git_stat.stat.exists
 
     - name: Check if Python3 is installed
       ansible.builtin.stat:
@@ -27,6 +32,11 @@
         state: present
       when: not python_stat.stat.exists
 
+    - name: Python3 already installed
+      debug:
+        msg: "Python3 is already installed. Skipping installation."
+      when: git_stat.stat.exists
+
     - name: Check if Java is installed
       ansible.builtin.stat:
         path: /usr/bin/java
@@ -37,3 +47,8 @@
         name: java-1.8.0-openjdk
         state: present
       when: not java_stat.stat.exists
+
+    - name: Java already installed
+      debug:
+        msg: "Java is already installed. Skipping installation."
+      when: git_stat.stat.exists
