@@ -10,13 +10,12 @@
     yum:
       name:
         - docker
-        - python3
+        - python-pip
       state: present
 
   - name: Install docker-py
     pip:
       name: docker-py
-      executable: pip3
       state: present
 
   - name: Start and Enable Docker
