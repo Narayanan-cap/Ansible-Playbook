@@ -22,7 +22,7 @@
 
     - name: Download EPEL release RPM
       get_url:
-        url: http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+        url: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
         dest: /tmp/epel-release-latest-7.noarch.rpm
 
     - name: Install EPEL release RPM
