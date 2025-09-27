@@ -5,61 +5,52 @@
   connection: ssh
 
   tasks:
-    - name: Install OpenJDK
+    - name: Update system packages
       yum:
-        name: java-17-amazon-corretto.x86_64
+        name: '*'
+        state: latest
+
+    - name: Install OpenJDK 17
+      yum:
+        name: java-17-amazon-corretto
         state: present
 
-    - name: Download the Jenkins Repo
+    - name: Add Jenkins repository
       get_url:
         url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
         dest: /etc/yum.repos.d/jenkins.repo
 
-    - name: Import Jenkins GPG Key
+    - name: Import Jenkins GPG key
       rpm_key:
         key: https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
         state: present
-
-    - name: Enable EPEL repository on Amazon Linux 2
-      command: amazon-linux-extras install epel -y
-      become: true
-
-
-    - name: Verify EPEL repository is enabled
-      command: yum repolist
-      register: repolist
-
-    - name: Show enabled repositories
-      debug:
-        var: repolist.stdout_lines
-
 
     - name: Install Jenkins
       yum:
         name: jenkins
         state: present
-        
-    - name: Start Jenkins
+
+    - name: Start Jenkins service
       service:
         name: jenkins
         state: started
 
-    - name: Enable Jenkins on boot
+    - name: Enable Jenkins service on boot
       systemd:
         name: jenkins
         enabled: true
 
-    - name: Wait for the Jenkins port to be available
+    - name: Wait for Jenkins port to be available
       wait_for:
         port: 8080
         delay: 30
         timeout: 300
         state: started
 
-    - name: Get the Jenkins Admin Password
+    - name: Get Jenkins initial admin password
       shell: cat /var/lib/jenkins/secrets/initialAdminPassword
       register: jenkinspass
 
-    - name: Print Jenkins Admin Password
+    - name: Show Jenkins admin password
       debug:
         var: jenkinspass.stdout
