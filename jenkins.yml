@@ -9,43 +9,36 @@
       yum:
         name: java-17-amazon-corretto.x86_64
         state: present
-        ignore_errors: yes
 
     - name: Download the Jenkins Repo
       get_url:
         url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
         dest: /etc/yum.repos.d/jenkins.repo
-      ignore_errors: yes
 
     - name: Import Jenkins GPG Key
       rpm_key:
         key: https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
         state: present
-      ignore_errors: yes
 
     - name: Install EPEL Release
       yum:
         name: epel-release
         state: present
-      ignore_errors: yes
 
     - name: Install Jenkins
       yum:
         name: jenkins
         state: present
-      ignore_errors: yes
-
+        
     - name: Start Jenkins
       service:
         name: jenkins
         state: started
-      ignore_errors: yes
 
     - name: Enable Jenkins on boot
       systemd:
         name: jenkins
         enabled: true
-      ignore_errors: yes
 
     - name: Wait for the Jenkins port to be available
       wait_for:
@@ -53,14 +46,11 @@
         delay: 30
         timeout: 300
         state: started
-      ignore_errors: yes
 
     - name: Get the Jenkins Admin Password
       shell: cat /var/lib/jenkins/secrets/initialAdminPassword
       register: jenkinspass
-      ignore_errors: yes
 
     - name: Print Jenkins Admin Password
       debug:
         var: jenkinspass.stdout
-      ignore_errors: yes
