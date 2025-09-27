@@ -5,61 +5,62 @@
   connection: ssh
 
   tasks:
-    - name: Install Openjdk
+    - name: Install OpenJDK
       yum:
         name: java-17-amazon-corretto.x86_64
         state: present
+        ignore_errors: yes
 
     - name: Download the Jenkins Repo
       get_url:
         url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
         dest: /etc/yum.repos.d/jenkins.repo
+      ignore_errors: yes
 
-    - name: Import Key
+    - name: Import Jenkins GPG Key
       rpm_key:
         key: https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
         state: present
-
-    - name: Download EPEL release RPM
-      get_url:
-        url: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-        dest: /tmp/epel-release-latest-7.noarch.rpm
-
-    - name: Install EPEL release RPM
-      yum:
-        name: /tmp/epel-release-latest-7.noarch.rpm
-        state: present
-        disable_gpg_check: true
+      ignore_errors: yes
 
     - name: Install EPEL Release
       yum:
         name: epel-release
         state: present
+      ignore_errors: yes
 
     - name: Install Jenkins
       yum:
         name: jenkins
         state: present
-        
+      ignore_errors: yes
+
     - name: Start Jenkins
       service:
         name: jenkins
         state: started
+      ignore_errors: yes
 
-    - name: enable Jenkins
+    - name: Enable Jenkins on boot
       systemd:
         name: jenkins
         enabled: true
+      ignore_errors: yes
 
-    - name: Wait for thr port
+    - name: Wait for the Jenkins port to be available
       wait_for:
-        delay: 30
         port: 8080
+        delay: 30
+        timeout: 300
+        state: started
+      ignore_errors: yes
 
-    - name: Get the Admin Password
+    - name: Get the Jenkins Admin Password
       shell: cat /var/lib/jenkins/secrets/initialAdminPassword
       register: jenkinspass
+      ignore_errors: yes
 
-    - name: print jenkins password
+    - name: Print Jenkins Admin Password
       debug:
         var: jenkinspass.stdout
+      ignore_errors: yes
