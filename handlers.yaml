@@ -9,9 +9,7 @@
   - name: Install Docker and dependencies
     yum:
       name:
-        - docker
         - python3
-        - pyhton3-pip
       state: present
 
   - name: Install docker-py
