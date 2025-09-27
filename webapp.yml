@@ -26,7 +26,7 @@
       git:
         repo: "https://github.com/Msocial123/Flipkart-Clone.git"
         dest: "/home/ansible/Flipkart-Clone"
-        version: master
+        version: main
         force: yes
       ignore_errors: yes
 
