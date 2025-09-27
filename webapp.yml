@@ -21,17 +21,19 @@
     - name: Remove default Apache index.html
       action: file path=/var/www/html/index.html state=absent
       ignore_errors: yes
-    - name: Clone Flipkart Clone repo
+    
+    - name: Clone Flipkart Clone repository
       git:
-        repo: https://github.com/Msocial123/Flipkart-Clone.git
-        dest: /opt/flipkart-clone
+        repo: "https://github.com/Msocial123/Flipkart-Clone.git"
+        dest: "/home/ansible/Flipkart-Clone"
+        version: master
         force: yes
       ignore_errors: yes
 
-    - name: Copy web app files to Apache web root
-      action: shell cp -r /opt/flipkart-clone/* /var/www/html/
+    - name: Copy application code to web root
+      action: shell cp -r /home/ansible/Flipkart-Clone/* /var/www/html/
       ignore_errors: yes
 
-    - name: Set permissions for Apache web root
-      action: file path=/var/www/html/ recurse=yes owner=apache group=apache mode=0755
+    - name: Set correct permissions for web root
+      action: file path=/var/www/html recurse=yes owner=apache group=apache mode=0755
       ignore_errors: yes
